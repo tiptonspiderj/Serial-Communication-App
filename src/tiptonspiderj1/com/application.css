@@ -1,0 +1,125 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+*{
+-fx-secondary: #27AAE1;
+}
+
+.background {
+ 	-fx-background-color:
+ 		linear-gradient(#5f5f5f 45.0%, black 100.0%); 	
+ }
+
+.context-menu {
+    -fx-background-color: 
+    	linear-gradient(#f1f1f1, #d3d3d3);       
+    -fx-border-radius: 5.0px;     
+    -fx-background-radius: 5.0px;
+    }
+
+.menu-bar {
+	-fx-background-color: 
+    	linear-gradient(#d3d3d3, darkgray); 
+}
+    
+.menu-item, .menu {
+	-fx-font-weight: bold;    
+    -fx-border-radius: 5.0px;     
+    -fx-background-radius: 5.0px;     
+    -fx-padding:0.2em;
+}
+
+.context-menu {	
+	-fx-padding: 0.0;
+}
+
+.menu .label {
+	-fx-text-fill: black;
+}
+	
+.menu:focused, .menu-item:focused, .contxt-menu:focused {
+	-fx-background-color: #27aae1;	
+}
+
+.combobox:focused{	
+	-fx-background-color: linear-gradient(#d3d3d3 0.0%, #27aae1 100.0%);
+}
+
+.context-menu {
+    -fx-background-color: 
+    	linear-gradient(#f1f1f1, #d3d3d3);       
+    -fx-border-radius: 5.0px;     
+    -fx-background-radius: 5.0px;
+    }
+    
+.combo-box-base {
+	-fx-font-weight: bold;
+}
+
+.combo-box-base .list-view .list-cell {
+	-fx-background: #d3d3d3;
+    -fx-background-color: #d3d3d3; 
+    -fx-font-weight: bold; 
+    -fx-border-radius: 5.0px;     
+    -fx-background-radius: 5.0px;  
+    
+	
+}
+
+.combo-box-base .list-view{
+	-fx-background-color: #d3d3d3;
+	-fx-padding: 0.0;
+	-fx-border-width: 2.0px;
+	
+	-fx-border-radius: 5.0px;     
+    -fx-background-radius: 5.0px;  
+}
+
+.combo-box-base .list-view .list-cell:hover {
+	-fx-background-color: #27aae1;
+	
+}
+
+ .customButton {
+ 	-fx-background-color: 
+        linear-gradient(#111111 0.0%, #373837 35.0%, #454545 50.0%, #555555 65.0%, #656565 80.0%, #757575 90.0%, #d3d3d3 97.0%),
+        linear-gradient(#6b6a6b, #3a3a3a),
+        linear-gradient(#9d9e9d 0.0%, #6b6a6b 20.0%, #343534 80.0%, #343534 100.0%),
+        linear-gradient(#8a8a8a 0.0%, #6b6a6b 20.0%, #343534 80.0%, #343534 100.0%),
+        linear-gradient(#777777 0.0%, #606060 50.0%, #505250 51.0%, #343534 100.0%);
+    -fx-background-radius: 10.0, 8.0, 5.0, 4.0, 3.0;
+    -fx-background-insets: 1.0, 4.0, 5.0, 6.0, 8.0;     
+    -fx-font-size: 14.0px;
+    -fx-font-weight: bold;    
+    -fx-text-fill: #d3d3d3;
+ 	-fx-effect:dropshadow(three-pass-box, rgba(0.0,0.0,0.0, 0.0), 0.5, 0.0, 0.0, 0.0); 
+ }
+ 
+ .customButton:hover {
+    -fx-background-color: 
+        linear-gradient(#111111 0.0%, #373837 35.0%, #454545 50.0%, #555555 65.0%, #656565 80.0%, #757575 90.0%, #d3d3d3 97.0%),
+        linear-gradient(#d3d3d3 0.0%, #27aae1 100.0%),
+        linear-gradient(#d3d3d3 0.0%, #27aae1 100.0%),
+        linear-gradient(#d3d3d3 0.0%, #27aae1 100.0%),
+        linear-gradient(#d3d3d3 0.0%, #27aae1 100.0%);
+        -fx-text-fill: black;
+}
+
+.customButton:pressed {
+	-fx-translate-y: 1.5;
+	-fx-translate-x: -1.0;        
+}
+
+/* Login Screen Specific */
+.serial-button {
+	-fx-border-color: -fx-secondary;
+	-fx-border-radius: 20.0px;
+	-fx-background-radius: 20.0px;
+}
+
+.serial-button:hover {
+	-fx-border-color: -fx-secondary;
+	-fx-background-color: -fx-secondary;
+	-fx-text-fill: #000000;
+}
+
+
+ 
