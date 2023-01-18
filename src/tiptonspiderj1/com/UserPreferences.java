@@ -43,6 +43,12 @@ public class UserPreferences {
 	public static UserPreferences getInstance() {
 		return instance;
 	}
+	
+	/**
+	*
+	* @param instance is used to get access to the rest of the private variables
+	* in the class
+	*/
 	public static void setInstance(UserPreferences instance) {
 		UserPreferences.instance = instance;
 	}

@@ -33,9 +33,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -45,7 +47,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 
-public class FXMLController implements Initializable, SerialPortDataListener {
+
+
+public class FXMLController implements Initializable {
 
 	/***************************************************************************
 	 *                                Variables                                *
@@ -94,6 +98,9 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 
 	@FXML
 	private TextArea fileText;
+	
+	@FXML
+    private TextArea receivedText;
 
 	@FXML
 	private ComboBox<String> availablePorts;
@@ -101,31 +108,33 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 	// set up the variable used for the instance of the main window
 	private static FXMLController instance;
 	// map the port names to the CommPortIdentifiers
-	private HashMap<String, SerialPort> portMap = new HashMap<String, SerialPort>();
+	private HashMap<String, SerialPort> portMap = new HashMap<>();
 	// set up an array for holding the port names
 	private ObservableList<String> portList = FXCollections.observableArrayList();
 	// set up an array for possible baud rates
-	private ObservableList<String> baudList = FXCollections.observableArrayList("2400", "4800", "9600", "19200",
+	private final ObservableList<String> baudList = FXCollections.observableArrayList("2400", "4800", "9600", "19200",
 			"38400", "57600", "115200");
 	// set up an array for possible data bits
-	private ObservableList<String> dataBitList = FXCollections.observableArrayList("5", "6", "7", "8");
+	private final ObservableList<String> dataBitList = FXCollections.observableArrayList("5", "6", "7", "8");
 	// set up an array for possible stop bits
-	private ObservableList<String> stopBitList = FXCollections.observableArrayList("1", "1.5", "2");
+	private final ObservableList<String> stopBitList = FXCollections.observableArrayList("1", "1.5", "2");
 	// set up an array for possible parity settings
-	private ObservableList<String> parityList = FXCollections.observableArrayList("Even", "Odd", "None", "Space",
+	private final ObservableList<String> parityList = FXCollections.observableArrayList("Even", "Odd", "None", "Space",
 			"Mark");
 	// set up an array for possible flow control
-	private ObservableList<String> flowControlList = FXCollections.observableArrayList("RTS/CTS", "XON/XOFF", "None");
+	private final ObservableList<String> flowControlList = FXCollections.observableArrayList("RTS", "CTS", "XON/XOFF", "None");
 	// set up a variable for the selected port
-	private String selectedPort = null;
+	private String selectedPort;
 	// this object contains the opened port
 	private static SerialPort[] serialPorts;
-	private SerialPort serialPort = null;
+	private SerialPort serialPort;
 	// input and output streams for sending and receiving data
-	private static BufferedReader input = null;
-	private static OutputStream output = null;	
+	private static BufferedReader input;
+	private static OutputStream output;	
 	// set up integer variables to hold serial port parameters
 	private int baud, databit, stopbit, paritee, flowcontrol;
+	// set up a string builder for reading data from Grbl
+	private StringBuilder data = new StringBuilder();
 
 	/****************************************************************************
 	 *                           Setters and Getters                            *
@@ -169,7 +178,7 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		dataBits.setValue(dataBitList.get(2));
 		stopBits.setValue(stopBitList.get(2));
 		parity.setValue(parityList.get(0));
-		flowControl.setValue(flowControlList.get(1));
+		flowControl.setValue(flowControlList.get(2));
 		// set the values associated for the default port parameters
 		baud = 4800;
 		databit = 7;
@@ -177,6 +186,7 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		paritee = 2;
 		flowcontrol = 4;
 		menuHelp.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN));
+		menuExit.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN));
 		Platform.runLater(() -> {
 			// request focus in the text area after the GUI is created
 			availablePorts.requestFocus();
@@ -211,30 +221,34 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 	} // end of the closeWindow method
 
 	void disconnect() {
-		try {
-			// close the input stream
-			input.close();
+		try {			
+			input.close();	
 			// remove the listener on the serialPort
 			serialPort.removeDataListener();
+		} catch (IOException e1) {
+		} catch (NullPointerException e) {	
+		}// end of the try/catch statement
+		
+		try {			
 			// close the output stream
 			output.close();
-		} catch (IOException | NullPointerException e) {
-		} // end of the try/catch statement
-		try {
-			// close the serialPort connection
-			serialPort.closePort();
-		} catch (NullPointerException ex) {
-		} // end of the try/catch statement
+		} catch (IOException e) {
+		} catch (NullPointerException e) {	
+		}// end of the try/catch statement
+		serialPort.closePort();
 	} // end of the disconnect method
 
 	@FXML
-	void listPorts(MouseEvent event) {
+	void listPorts(MouseEvent event) {	
+		if(btnConnect.getText() == "Disconnect") {
+			return;
+		}
 		// clear our list
 		portList.clear();
 		// scan the computer ports
 		searchPorts();
 		// add available ports to the combo box
-		getAvailablePorts().setItems(portList);
+		getAvailablePorts().setItems(portList);		
 	} // end of the listPorts method
 
 	@FXML
@@ -249,16 +263,16 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		String temp = dataBits.getValue();
 		// set up a switch statement to set the data bits port parameter
 		switch (temp) {
-		case ("5"):
+		case "5":
 			databit = 5;
 			break;
-		case ("6"):
+		case "6":
 			databit = 6;
 			break;
-		case ("7"):
+		case "7":
 			databit = 7;
 			break;
-		case ("8"):
+		case "8":
 			databit = 8;
 			break;
 		} // end of the switch case statement
@@ -270,14 +284,16 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		String temp = flowControl.getValue();
 		// set up a switch statement to set the data flow control port parameter
 		switch (temp) {
-		case ("RTS/CTS"):
+		case "RTS":
 			flowcontrol = SerialPort.FLOW_CONTROL_RTS_ENABLED;
-			
 			break;
-		case ("XON/XOFF"):
+		case "CTS":
+			flowcontrol = SerialPort.FLOW_CONTROL_CTS_ENABLED;
+			break;
+		case "XON/XOFF":
 			flowcontrol = SerialPort.FLOW_CONTROL_XONXOFF_IN_ENABLED;
 			break;
-		case ("None"):
+		case "None":
 			flowcontrol = SerialPort.FLOW_CONTROL_DISABLED;
 			break;
 		} // end of the switch case statement
@@ -289,19 +305,19 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		String temp = parity.getValue();
 		// set up a switch statement to set the parity port parameter
 		switch (temp) {
-		case ("Even"):
+		case "Even":
 			paritee = SerialPort.EVEN_PARITY;
 			break;
-		case ("Odd"):
+		case "Odd":
 			paritee = SerialPort.ODD_PARITY;
 			break;
-		case ("None"):
+		case "None":
 			paritee = SerialPort.NO_PARITY;
 			break;
-		case ("Space"):
+		case "Space":
 			paritee = SerialPort.SPACE_PARITY;
 			break;
-		case ("Mark"):
+		case "Mark":
 			paritee = SerialPort.MARK_PARITY;
 			break;
 		} // end of the switch case statement
@@ -313,13 +329,13 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		String temp = stopBits.getValue();
 		// set up a switch statement to set the data stop bits port parameter
 		switch (temp) {
-		case ("1"):
-			stopbit = SerialPort.ONE_STOP_BIT;
+		case "1":
+			stopbit = SerialPort.ONE_STOP_BIT;			
 			break;
-		case ("1.5"):
+		case "1.5":
 			stopbit = SerialPort.ONE_POINT_FIVE_STOP_BITS;
 			break;
-		case ("2"):
+		case "2":
 			stopbit = SerialPort.TWO_STOP_BITS;
 			break;
 		} // end of the switch case statement
@@ -332,58 +348,78 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 		// set up the CommPortIdentifier(Communications port management) for the
 		// selected port.
 		serialPort = portMap.get(selectedPort);
-		System.out.println(serialPort);
 	} // end of the handleSelectPort method
 
 	@FXML
 	void connect(ActionEvent event) throws Exception {
 		if (btnConnect.getText().contains("Connect")) {
-
-			// set up the comm port and initialized it to null
 			
-					// try to open the selected port with the timeout restriction of 2 seconds
-					serialPort.openPort();
-				
-				
-				
-					// Set the baud rate, number of data bits, the stop bits, and no parity checking
-					serialPort.setComPortParameters(baud, databit, stopbit, paritee);
-					// set up a switch statement to set the user's desired flow control parameter
-					switch (flowcontrol) {
-					case (1):
-						//serialPort.setFlowControlMode(
-								//SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
-						break;
-					case (4):
-						//serialPort.setFlowControlMode(
-								//SerialPort.FLOWCONTROL_XONXOFF_IN | SerialPort.FLOWCONTROL_XONXOFF_OUT);
-						break;
-					case (0):
-						//serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-						break;
-					}
-				
+			// Set the baud rate, number of data bits, the stop bits, and no parity checking
+			serialPort.setComPortParameters(baud, databit, stopbit, paritee);
+			
+			// set up a switch statement to set the user's desired flow control parameter
+			serialPort.setFlowControl(flowcontrol);			
+			
+			// try to open the selected port with the timeout restriction of 2 seconds
+			serialPort.openPort();				
+			
+			output = serialPort.getOutputStream();
+			
 			try {
-				// start the output stream
-				output = serialPort.getOutputStream();
-				// start the input stream now that we have sent our commands to Grbl
 				input = new BufferedReader(new InputStreamReader(serialPort.getInputStream()));
-			} catch (Exception eb) {
-				eb.printStackTrace();
-			}
-			try {
-				// add an event listener to the serial port so we don't have to poll and data is
-				// always received
-				// this method is better than polling and uses less processing power
-				serialPort.addDataListener(this);
-				// when data is available notify the serialEvent method
-				//serialPort.notifyOnDataAvailable(true);
-				// catch the error of trying to add too many event listeners to the serial
-				// port(only one is allowed)
-			} catch (Exception ec) {
-				ec.printStackTrace();
-			} // end of try/catch statement
-				// set the text of the button
+				} catch (NullPointerException e) {
+					// let the user know the port is not available
+					Platform.runLater(() -> {
+						// display an alert message to tell the user we made a successful connection
+						Alert alert = new Alert(AlertType.ERROR);
+						// set the icon for the alert window
+						alert.initOwner(Main.stage);
+						// set the title of the window to connected
+						alert.setTitle("Port not available");
+						// eliminate the header text area from the window
+						alert.setHeaderText(null);
+						// display the following message
+						alert.setContentText("The port is not available for use.");
+						// get the stage variable for the alert window
+						Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+						// make is display on top of open windows
+						stage.setAlwaysOnTop(true);
+						// finally show the alert window
+						alert.showAndWait();
+					}); // end of the Platform.runLater method
+					return;
+				}  // end of the try/catch statement
+			
+
+			serialPort.addDataListener(new SerialPortDataListener() {
+				@Override
+				public int getListeningEvents() {
+					return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; 
+				}
+				@Override
+				public void serialEvent(SerialPortEvent event) {
+					if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+						return;
+					}						
+					byte[] newData = new byte[serialPort.bytesAvailable()];					     
+					serialPort.readBytes(newData, newData.length);
+					for (byte b: newData) {
+						if ((b == '\r' || b == '\n') && data.length() == 0) {
+						} else if ((b == '\r' || b == '\n') && data.length() > 0 ) {							
+							String toProcess = data.toString();
+	                            	String s = new String(toProcess);
+	                            	s = s.replaceAll("[\\r\\n]", "");
+	                            	receivedText.appendText(s + "\r\n");
+	                        data.setLength(0);
+						}else {							
+	                        data.append((char)b);
+	                    }
+					} // end of for loop												
+				} // end of the serial event method					
+			}); // end of the addDataListener method
+			
+			
+			// set the text of the button
 			btnConnect.setText("Disconnect");
 		} else {
 			// call the disconnect method of this class
@@ -514,7 +550,7 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 	} // end of the handSaveFile method
 
 	@FXML
-	void handleSendFile(ActionEvent event) {
+	void uploadFileToMachine(ActionEvent event) {		
 		try {
 			// convert our data into a byte array
 			byte[] data = getFileText().getText().getBytes();
@@ -529,7 +565,7 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 	} // end of the handleSendFile method
 
 	@FXML
-	void loadFile(ActionEvent event) throws Exception {
+	void loadFile(ActionEvent event) throws Exception {		
 		// set up the instance of a file chooser to open files on the computer
 		FileChooser myfile = new FileChooser();
 		// add a filter so all files may be viewed to open
@@ -552,30 +588,5 @@ public class FXMLController implements Initializable, SerialPortDataListener {
 			input.close();
 		}
 	} // end of the loadFile method
-
-	@Override
-	public int getListeningEvents() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void serialEvent(SerialPortEvent event) {
-		// is our event a data available event?
-				//if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-					//try {
-						// check to see if the port is ready and available to get data from
-						//if (input.ready() && (input.lines() != null)) {
-							// get the line of data from the serial port
-							//String data = input.readLine();
-							//Platform.runLater(() -> {
-								// append the line of text to the text area
-								//FXMLController.instance.getFileText().appendText(data + "\r\n");
-							//});
-						//} // end of the if statement
-					//} catch (Exception ex) {
-					//} // end of the try/catch statement
-				//} // end of the if statement
-			} // end of the serial event method
 
 }// end of the FXMLController class

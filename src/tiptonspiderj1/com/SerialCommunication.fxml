@@ -20,15 +20,15 @@
             <Image url="@../../images/Logo.png" />
          </image>
       </ImageView>
-      <TextArea fx:id="fileText" layoutX="384.0" layoutY="33.0" prefHeight="493.0" prefWidth="445.0" style="-fx-opacity: .6;" AnchorPane.topAnchor="33.0">
+      <TextArea fx:id="fileText" layoutX="384.0" layoutY="33.0" prefHeight="269.0" prefWidth="446.0" style="-fx-opacity: .6;" AnchorPane.topAnchor="33.0">
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></TextArea>
-      <JFXButton fx:id="btnClearText" layoutX="545.0" layoutY="537.0" onAction="#handleClearText" prefHeight="41.0" prefWidth="123.0" styleClass="serial-button" text="Clear Text" textFill="LIGHTGRAY">
+      <JFXButton fx:id="btnClearText" layoutX="544.0" layoutY="537.0" onAction="#handleClearText" prefHeight="41.0" prefWidth="126.0" styleClass="serial-button" text="Clear Text" textFill="LIGHTGRAY">
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></JFXButton>
-      <JFXButton fx:id="btnSaveFile" layoutX="706.0" layoutY="537.0" onAction="#handleSaveFile" prefHeight="41.0" prefWidth="123.0" styleClass="serial-button" text="Save File" textFill="LIGHTGRAY">
+      <JFXButton fx:id="btnSaveFile" layoutX="702.0" layoutY="537.0" onAction="#handleSaveFile" prefHeight="41.0" prefWidth="126.0" styleClass="serial-button" text="Save File" textFill="LIGHTGRAY">
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></JFXButton>
@@ -36,7 +36,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
-              <MenuItem fx:id="menuLoad" mnemonicParsing="false" onAction="#loadFile" text="Load">
+              <MenuItem fx:id="menuLoad" mnemonicParsing="false" onAction="#loadFile" text="Load CNC File">
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="F" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -67,7 +67,7 @@
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></Label>
-      <JFXButton fx:id="btnSendFile" layoutX="385.0" layoutY="537.0" onAction="#handleSendFile" prefHeight="41.0" prefWidth="123.0" styleClass="serial-button" text="Load File" textFill="LIGHTGRAY">
+      <JFXButton fx:id="btnSendFile" layoutX="385.0" layoutY="537.0" onAction="#uploadFileToMachine" prefHeight="41.0" prefWidth="126.0" styleClass="serial-button" text="Upload File" textFill="LIGHTGRAY">
          <font>
             <Font name="Tahoma Bold" size="18.0" />
          </font></JFXButton>
@@ -107,5 +107,15 @@
             <Font name="Tahoma Bold" size="18.0" />
          </font>
       </JFXButton>
+      <TextArea fx:id="receivedText" layoutX="385.0" layoutY="328.0" prefHeight="200.0" prefWidth="445.0" style="-fx-opacity: .6;" AnchorPane.bottomAnchor="61.39999999999998">
+         <font>
+            <Font name="Tahoma Bold" size="18.0" />
+         </font>
+      </TextArea>
+      <Label layoutX="386.0" layoutY="303.0" text="Received Data" textFill="LIGHTGRAY">
+         <font>
+            <Font name="Tahoma Bold" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
