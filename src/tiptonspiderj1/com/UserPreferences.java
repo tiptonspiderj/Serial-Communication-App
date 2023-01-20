@@ -1,12 +1,21 @@
 package tiptonspiderj1.com;
 
 public class UserPreferences {
+	
+	/***************************************************************************
+	 *                                Variables                                *
+	 ***************************************************************************/
+	
 	// set up all variables for user settings
 	private String baudRate;
 	private String dataBits;	
 	private String stopBits;
 	private String parity;
-	private String flowControl;	
+	private String flowControl;
+	
+	/****************************************************************************
+	 *                           Setters and Getters                            *
+	 ****************************************************************************/
 	
 	public String getBaudRate() {
 		return baudRate;
@@ -38,6 +47,10 @@ public class UserPreferences {
 	public void setFlowControl( final String flowControl) {
 		this.flowControl = flowControl;
 	}
+	
+	/****************************************************************************
+	 *                             Methods/Functions                            *
+	 ****************************************************************************/
 	
 	// default constructor for the class
 	UserPreferences(){};

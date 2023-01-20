@@ -171,18 +171,22 @@ public class FXMLController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		
 		// get the directory the application starts in to get the file path for all files used in the program
 		savedParametersFilePath = new File("").getAbsolutePath() + File.separator +"Settings";	
+		
 		// check if the directory exists for saving parameter files
 		 File directory = new File(savedParametersFilePath);
 		    if (! directory.exists()){
 		        directory.mkdir();
-		    }
-		
+		    } // end of if statement
+		    
 		// initialize the instance of this class so it can be shared across controllers
 		mainController();
+		
 		// scan the computer ports
 		searchPorts();
+		
 		// add data to our combo boxes
 		availablePorts.setItems(portList);
 		baudRate.setItems(baudList);
@@ -190,12 +194,14 @@ public class FXMLController implements Initializable {
 		stopBits.setItems(stopBitList);
 		parity.setItems(parityList);
 		flowControl.setItems(flowControlList);
+		
 		// set up default values for each serial port parameter
 		baudRate.setValue(baudList.get(1));
 		dataBits.setValue(dataBitList.get(2));
 		stopBits.setValue(stopBitList.get(2));
 		parity.setValue(parityList.get(0));
 		flowControl.setValue(flowControlList.get(2));
+		
 		// set the values associated for the default port parameters
 		baud = 4800;
 		databit = 7;
@@ -204,6 +210,7 @@ public class FXMLController implements Initializable {
 		flowcontrol = 4;
 		menuHelp.setAccelerator(new KeyCodeCombination(KeyCode.H, KeyCombination.CONTROL_DOWN));
 		menuExit.setAccelerator(new KeyCodeCombination(KeyCode.X, KeyCombination.CONTROL_DOWN));
+		
 		Platform.runLater(() -> {
 			// request focus in the text area after the GUI is created
 			availablePorts.requestFocus();
@@ -416,7 +423,7 @@ public class FXMLController implements Initializable {
 				public void serialEvent(SerialPortEvent event) {
 					if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
 						return;
-					}						
+					} // end of the if statement				
 					byte[] newData = new byte[serialPort.bytesAvailable()];					     
 					serialPort.readBytes(newData, newData.length);
 					for (byte b: newData) {
@@ -429,7 +436,7 @@ public class FXMLController implements Initializable {
 	                        data.setLength(0);
 						}else {							
 	                        data.append((char)b);
-	                    }
+	                    } // end of the if/else statement
 					} // end of for loop												
 				} // end of the serial event method					
 			}); // end of the addDataListener method
@@ -442,7 +449,7 @@ public class FXMLController implements Initializable {
 			disconnect();
 			// set the text of the button
 			btnConnect.setText("Connect");
-		} // end of the if statement
+		} // end of the if/else statement
 	}// end of the connect method
 
 	@FXML
@@ -546,7 +553,7 @@ public class FXMLController implements Initializable {
 				writer.write(jsonString);
 				// close the file
 				writer.close();
-			}
+			} // end of the if statement
 		} catch (IOException e) {
 		} // end of try/catch statement
 	} // end of the saveParameters method
@@ -607,7 +614,7 @@ public class FXMLController implements Initializable {
 			} // end of while loop
 				// close the file stream being read
 			input.close();
-		}
+		} // end of the if statement
 	} // end of the loadFile method
 
 }// end of the FXMLController class
