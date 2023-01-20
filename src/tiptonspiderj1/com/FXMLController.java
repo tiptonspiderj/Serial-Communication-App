@@ -362,8 +362,7 @@ public class FXMLController implements Initializable {
 	void handleSelectPort(ActionEvent event) {
 		// get the string name of the serial port
 		selectedPort = availablePorts.getValue();
-		// set up the CommPortIdentifier(Communications port management) for the
-		// selected port.
+		// set up the CommPortIdentifier(Communications port management) for the selected port.
 		serialPort = portMap.get(selectedPort);
 	} // end of the handleSelectPort method
 
@@ -485,6 +484,7 @@ public class FXMLController implements Initializable {
 	void loadParameters(ActionEvent event) {
 		// create a new file chooser window
 		FileChooser openFile = new FileChooser();
+		//set up a local variable for the directory path
 		File directory = new File(savedParametersFilePath);
 		openFile.setInitialDirectory(directory);
 		// Set extension filter
@@ -529,6 +529,7 @@ public class FXMLController implements Initializable {
 			UserPreferences preference = new UserPreferences(baudRate.getValue(),dataBits.getValue(),stopBits.getValue(),parity.getValue(),flowControl.getValue());
 			// create a new file chooser window
 			FileChooser saveFile = new FileChooser();
+			//set up a local variable for the directory path
 			File directory = new File(savedParametersFilePath);
 			saveFile.setInitialDirectory(directory);
 			// Set extension filter
