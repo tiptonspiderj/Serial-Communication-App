@@ -95,6 +95,9 @@ public class FXMLController implements Initializable {
 
 	@FXML
 	private JFXButton btnClearText;
+	
+	@FXML
+	private JFXButton btnClearData;
 
 	@FXML
 	private TextArea fileText;
@@ -135,6 +138,8 @@ public class FXMLController implements Initializable {
 	private int baud, databit, stopbit, paritee, flowcontrol;
 	// set up a string builder for reading data from Grbl
 	private StringBuilder data = new StringBuilder();
+	// string variable for the file path of this program
+	private String savedParametersFilePath;
 
 	/****************************************************************************
 	 *                           Setters and Getters                            *
@@ -155,6 +160,10 @@ public class FXMLController implements Initializable {
 	public void setFileText(String fileText) {
 		this.fileText.setText(fileText);
 	}
+	
+	public void setReceivedText(String fileText) {
+		this.receivedText.setText(fileText);
+	}
 
 	/****************************************************************************
 	 *                             Methods/Functions                            *
@@ -162,6 +171,14 @@ public class FXMLController implements Initializable {
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		// get the directory the application starts in to get the file path for all files used in the program
+		savedParametersFilePath = new File("").getAbsolutePath() + File.separator +"Settings";	
+		// check if the directory exists for saving parameter files
+		 File directory = new File(savedParametersFilePath);
+		    if (! directory.exists()){
+		        directory.mkdir();
+		    }
+		
 		// initialize the instance of this class so it can be shared across controllers
 		mainController();
 		// scan the computer ports
@@ -434,6 +451,12 @@ public class FXMLController implements Initializable {
 		// clear the text in the text area
 		setFileText("");
 	} // end of the handleClearText method
+	
+	@FXML
+    void handleClearData(ActionEvent event) {
+		// clear the text in the text area
+		setReceivedText("");
+    }
 
 	@FXML
 	void openHelp(ActionEvent event) {		
@@ -462,6 +485,8 @@ public class FXMLController implements Initializable {
 	void loadParameters(ActionEvent event) {
 		// create a new file chooser window
 		FileChooser openFile = new FileChooser();
+		File directory = new File(savedParametersFilePath);
+		openFile.setInitialDirectory(directory);
 		// Set extension filter
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
 		openFile.getExtensionFilters().add(extFilter);
@@ -475,15 +500,14 @@ public class FXMLController implements Initializable {
 			UserPreferences pref = new UserPreferences();
 			try {
 				// get the preferences from the settings file
-				pref = gson.fromJson(new FileReader(openedFile), UserPreferences.class);	
-				// set the instance of this class to the settings we just read from the file
-				UserPreferences.setInstance(pref);
+				pref = gson.fromJson(new FileReader(openedFile), UserPreferences.class);			
+				
 				// set all of the user's preferences
 				baudRate.setValue(pref.getBaudRate());
 				dataBits.setValue(pref.getDataBits());
 				flowControl.setValue(pref.getFlowControl());
 				parity.setValue(pref.getParity());
-				stopBits.setValue(pref.getStopBits());
+				stopBits.setValue(pref.getStopBits());	
 				
 			} catch (JsonSyntaxException e) {					
 			} catch (JsonIOException e) {				
@@ -500,17 +524,13 @@ public class FXMLController implements Initializable {
 			// set up a Gson builder
 			GsonBuilder builder = new GsonBuilder();
 			// initialize the gson builder
-			Gson gson = builder.create();
-			// set all of the user's preferences
-			UserPreferences.getInstance().setBaudRate(baudRate.getValue());
-			UserPreferences.getInstance().setDataBits(dataBits.getValue());
-			UserPreferences.getInstance().setFlowControl(flowControl.getValue());
-			UserPreferences.getInstance().setParity(parity.getValue());
-			UserPreferences.getInstance().setStopBits(stopBits.getValue());
+			Gson gson = builder.create();			
 			// get the instance of the UserPreference class
-			UserPreferences preference = UserPreferences.getInstance();
+			UserPreferences preference = new UserPreferences(baudRate.getValue(),dataBits.getValue(),stopBits.getValue(),parity.getValue(),flowControl.getValue());
 			// create a new file chooser window
 			FileChooser saveFile = new FileChooser();
+			File directory = new File(savedParametersFilePath);
+			saveFile.setInitialDirectory(directory);
 			// Set extension filter
 			FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TEXT files (*.txt)", "*.txt");
 			saveFile.getExtensionFilters().add(extFilter);
@@ -536,7 +556,7 @@ public class FXMLController implements Initializable {
 		FileChooser saveFile = new FileChooser();
 		// show the save file window and set up a file variable
 		File savedFile = saveFile.showSaveDialog(null);
-		// make sure the filed name saved is not null
+		// make sure the filed name saved is not null		
 		if (savedFile != null) {
 			// create the file if it doesn't exist
 			savedFile.createNewFile();

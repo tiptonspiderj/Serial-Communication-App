@@ -6,52 +6,49 @@ public class UserPreferences {
 	private String dataBits;	
 	private String stopBits;
 	private String parity;
-	private String flowControl;
-	// initialize the instance of this class to be used through the application
-	private static UserPreferences instance = new UserPreferences(); 
+	private String flowControl;	
 	
 	public String getBaudRate() {
 		return baudRate;
 	}
-	public void setBaudRate(String baudRate) {
+	public void setBaudRate(final String baudRate) {
 		this.baudRate = baudRate;
 	}
 	public String getDataBits() {
 		return dataBits;
 	}
-	public void setDataBits(String dataBits) {
+	public void setDataBits(final String dataBits) {
 		this.dataBits = dataBits;
 	}
 	public String getStopBits() {
 		return stopBits;
 	}
-	public void setStopBits(String stopBits) {
+	public void setStopBits(final String stopBits) {
 		this.stopBits = stopBits;
 	}
 	public String getParity() {
 		return parity;
 	}
-	public void setParity(String parity) {
+	public void setParity( final String parity) {
 		this.parity = parity;
 	}
 	public String getFlowControl() {
 		return flowControl;
 	}
-	public void setFlowControl(String flowControl) {
+	public void setFlowControl( final String flowControl) {
 		this.flowControl = flowControl;
 	}
-	public static UserPreferences getInstance() {
-		return instance;
-	}
 	
-	/**
-	*
-	* @param instance is used to get access to the rest of the private variables
-	* in the class
-	*/
-	public static void setInstance(UserPreferences instance) {
-		UserPreferences.instance = instance;
-	}
+	// default constructor for the class
+	UserPreferences(){};
 	
+	// constructor for setting all parameters of this class
+	public UserPreferences(String baudRate, String dataBits, String stopBits, String parity, String flowControl) {		
+		this.baudRate = baudRate;
+		this.dataBits = dataBits;
+		this.stopBits = stopBits;
+		this.parity = parity;
+		this.flowControl = flowControl;		
+	}	
 
 }
