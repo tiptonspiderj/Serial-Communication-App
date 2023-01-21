@@ -17,7 +17,7 @@ This project came about when I worked for a company making their own CNC mill an
 
 ## Screenshots
 
-![main screen](https://github.com/tiptonspiderj/Serial-Communication-App/tree/main/src/images/Main_Screen.png)
+![main screen](https://github.com/tiptonspiderj/Serial-Communication-App/blob/main/src/images/Main_Screen.png)
 
 ## Color Reference
 
