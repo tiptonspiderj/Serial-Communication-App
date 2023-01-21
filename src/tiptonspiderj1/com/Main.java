@@ -39,7 +39,7 @@ public class Main extends Application {
 			// set the css file for the window
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// set the title for the window
-			primaryStage.setTitle("LEAD Uploader");
+			primaryStage.setTitle("Serial Communicator");
 			// set the icon for the window
 			primaryStage.getIcons().add(new Image("/images/icon.png"));
 			// set the scene onto the stage for the window
