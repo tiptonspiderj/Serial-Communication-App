@@ -6,14 +6,12 @@ This project came about when I worked for a company making their own CNC mill an
 
 - [@Jeremy Tipton](https://github.com/tiptonspiderj)
 
-
 ## Features
-
-- Light/dark mode toggle
-- Live previews
-- Fullscreen mode
-- Cross platform
-
+- Choose serial communication parameters
+- Save parameters per machine
+- Edit CAM files before sending
+- Save CAM files when needed
+- Clear text fields when needed
 
 ## Screenshots
 
@@ -23,10 +21,10 @@ This project came about when I worked for a company making their own CNC mill an
 
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| Example Color | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) #0a192f |
-| Example Color | ![#f8f8f8](https://via.placeholder.com/10/f8f8f8?text=+) #f8f8f8 |
-| Example Color | ![#00b48a](https://via.placeholder.com/10/00b48a?text=+) #00b48a |
-| Example Color | ![#00d1a0](https://via.placeholder.com/10/00b48a?text=+) #00d1a0 |
+| Background Color | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) #0a192f |
+| Background Color | ![#f8f8f8](https://via.placeholder.com/10/f8f8f8?text=+) #f8f8f8 |
+| Icon Color | ![#00b48a](https://via.placeholder.com/10/00b48a?text=+) #00b48a |
+| Example Color | ![#727272](https://via.placeholder.com/10/727272?text=+) #727272 |
 
 
 ## Installation
