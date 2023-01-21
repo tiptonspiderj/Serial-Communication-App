@@ -157,11 +157,11 @@ public class FXMLController implements Initializable {
 		return this.fileText;
 	}
 
-	public void setFileText(String fileText) {
+	public void setFileText(final String fileText) {
 		this.fileText.setText(fileText);
 	}
 	
-	public void setReceivedText(String fileText) {
+	public void setReceivedText(final String fileText) {
 		this.receivedText.setText(fileText);
 	}
 
