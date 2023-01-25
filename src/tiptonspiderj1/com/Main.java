@@ -31,17 +31,16 @@ public class Main extends Application {
 			// set up the source controller for the new window
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("SerialCommunication.fxml"));
 			// load the controls for the window
-			Parent root = loader.load();
-			// set the controller for the window
+			Parent root = loader.load(); // set the controller for the window
 			fxController = loader.getController();
 			// set the scene for the window
 			scene = new Scene(root);
 			// set the css file for the window
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			// set the title for the window
-			primaryStage.setTitle("Serial Communicator");
+			primaryStage.setTitle("Serial Communicator" + "");
 			// set the icon for the window
-			primaryStage.getIcons().add(new Image("/images/icon.png"));
+			primaryStage.getIcons().add(new Image("/images/myicon.png"));
 			// set the scene onto the stage for the window
 			primaryStage.setScene(scene);
 			// finally open the window for the user

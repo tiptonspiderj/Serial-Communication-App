@@ -173,7 +173,7 @@ public class FXMLController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		
 		// get the directory the application starts in to get the file path for all files used in the program
-		savedParametersFilePath = new File("").getAbsolutePath() + File.separator +"Settings";	
+		savedParametersFilePath = new File("").getAbsolutePath() + File.separator +"Settings";
 		
 		// check if the directory exists for saving parameter files
 		 File directory = new File(savedParametersFilePath);
