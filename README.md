@@ -23,7 +23,7 @@ This project came about when I worked for a company making their own CNC mill an
 | ----------------- | ------------------------------------------------------------------ |
 | Background Color | ![#0a192f](https://via.placeholder.com/10/0a192f?text=+) #0a192f |
 | Background Color | ![#f8f8f8](https://via.placeholder.com/10/f8f8f8?text=+) #f8f8f8 |
-| Icon Color | ![#b99855](https://via.placeholder.com/10/b99855?text=+) #b99855 |
+| Icon Color | ![#f8f8f8](https://via.placeholder.com/10/f8f8f8?text=+) #f8f8f8 |
 | Example Color | ![#727272](https://via.placeholder.com/10/727272?text=+) #727272 |
 
 
