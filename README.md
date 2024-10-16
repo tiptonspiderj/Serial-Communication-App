@@ -36,6 +36,8 @@ You can make an executable installer from my project using java's jpackage tool 
 jpackage -t exe --name Serial-Communication --description "Serial communication program Author: Jeremy Tipton" --app-version 1.0.0 --input input 
 --dest output --main-jar SerialComm.jar --win-shortcut --runtime-image runtime
 
+You can also download the executable file in the output folder labeled SerialComm-1.0.0.exe to install the program
+
 ### Executing program
 
 If you just want to run the program from the executable jar in the "input" folder you can use the command:
