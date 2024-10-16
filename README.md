@@ -38,7 +38,7 @@ Install my-project with npm
     
 ## Feedback
 
-If you have any feedback, please reach out to us at tiptonspiderj1@aol.com
+If you have any feedback, please reach out to me at tiptonspiderj1@aol.com
 
 
 ## Badges
