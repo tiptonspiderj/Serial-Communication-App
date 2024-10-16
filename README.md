@@ -27,14 +27,20 @@ This project came about when I worked for a company making their own CNC mill an
 | Example Color | ![#727272](https://via.placeholder.com/10/727272?text=+) #727272 |
 
 
-## Installation
+## Installation for Windows
 
-Install my-project with npm
+You can make an executable installer from my project using java's jpackage tool and the following CLI commands:
 
-```bash
-  npm install my-project
-  cd my-project
-```
+ jlink --module-path "Your path to JavaFX-Mods-jars" --add-modules=ALL-MODULE-PATH --output runtime
+ 
+jpackage -t exe --name Serial-Communication --description "Serial communication program Author: Jeremy Tipton" --app-version 1.0.0 --input input 
+--dest output --main-jar SerialComm.jar --win-shortcut --runtime-image runtime
+
+### Executing program
+
+If you just want to run the program from the executable jar in the "input" folder you can use the command:
+
+java -jar --module-path "YOUR PATH TO\javafxsdk17.0.0.1\lib" --add-modules=ALL-MODULE-PATH SerialComm.jar
     
 ## Feedback
 
