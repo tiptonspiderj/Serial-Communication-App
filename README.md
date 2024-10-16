@@ -26,6 +26,11 @@ This project came about when I worked for a company making their own CNC mill an
 | Icon Color | ![#b99855](https://via.placeholder.com/10/b99855) #b99855 |
 | Example Color | ![#727272](https://via.placeholder.com/10/727272?text=+) #727272 |
 
+### Dependencies
+
+The dependencies are JavaFX v17 and the external jars included in the "lib" folder
+
+The runnable jar file is located in the "input" folder
 
 ## Installation for Windows
 
