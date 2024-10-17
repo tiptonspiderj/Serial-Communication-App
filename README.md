@@ -28,7 +28,8 @@ This project came about when I worked for a company making their own CNC mill an
 
 ### Dependencies
 
-The dependencies are JavaFX v17 and the external jars included in the "lib" folder
+The dependencies are JavaFX v17 and the external jars included in the "lib" folder.
+
 The runnable jar file is located in the "input" folder
 ## Installation for Windows
 
