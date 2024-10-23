@@ -34,20 +34,20 @@ The runnable jar file is located in the "input" folder
 ## Installation for Windows
 
 You can make an executable installer from my project using java's jpackage tool and the following CLI commands:
-
+```
  jlink --module-path "Your path to JavaFX-Mods-jars" --add-modules=ALL-MODULE-PATH --output runtime
  
 jpackage -t exe --name Serial-Communication --description "Serial communication program Author: Jeremy Tipton" --app-version 1.0.0 --input input 
 --dest output --main-jar SerialComm.jar --win-shortcut --runtime-image runtime
-
+```
 You can also download the executable file in the output folder labeled SerialComm-1.0.0.exe to install the program
 
 ### Executing program
 
 If you just want to run the program from the executable jar in the "input" folder you can use the command:
-
+```
 java -jar --module-path "YOUR PATH TO\javafxsdk17.0.0.1\lib" --add-modules=ALL-MODULE-PATH SerialComm.jar
-    
+```   
 ## Feedback
 
 If you have any feedback, please reach out to me at tiptonspiderj1@aol.com
