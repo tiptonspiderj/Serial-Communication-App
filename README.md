@@ -1,7 +1,7 @@
 
 # Serial Communication App for CNC machines
 
-This project came about when I worked for a company making their own CNC mill and lathe machines.  We needed a program to simply upload files to our larger CNC machines making our metal parts.  We searched for a simple solution, but the existing software/hardware products in the community were terrible and outdated. 
+This project came about when I worked for a company making their own CNC mill and lathe machines.  We needed a program to simply upload files to our larger CNC machines making our metal parts.  We searched for a simple solution, but the existing software/hardware products in the community were outdated and not user friendly. 
 ## Authors
 
 - [@Jeremy Tipton](https://github.com/tiptonspiderj)
